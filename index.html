@@ -537,9 +537,9 @@ renderSales();renderStock();renderOrders();renderAccounting();renderCRM();render
 
 // ===================== LIVE DATA (Google Sheets published CSV) =====================
 const SOURCES={
-  accounting:"https://docs.google.com/spreadsheets/d/e/2PACX-1vQw7l0M5xfUK4HcFjXmYanZjUY0YlwTPcmcfbgpIRRwRDXr2FVnbJeSPUxKBgowRus6yJOTSRhJ8xTY/pubhtml?gid=239221607&single=true",
-  crm:"https://docs.google.com/spreadsheets/d/e/2PACX-1vSVZWeTxJhd8xAWXCWvfxyGSYcHe1GmBsWfpPJem22iF3chRb2LX_C78UD9bAS-7PLEVqRxL0evfBCk/pubhtml?gid=1743300095&single=true",
-  expiry:"https://docs.google.com/spreadsheets/d/e/2PACX-1vQ9kg09i4NmnbezajMvoema4scrDgGiTVHzlk9WUBiQr9o2rqX6Ph3HGioEzFgCPqZHKYe-rWKmUNLF/pubhtml?gid=0&single=true"
+  accounting:"https://docs.google.com/spreadsheets/d/e/2PACX-1vQw7l0M5xfUK4HcFjXmYanZjUY0YlwTPcmcfbgpIRRwRDXr2FVnbJeSPUxKBgowRus6yJOTSRhJ8xTY/pubhtml?gid=239221607&single=true&output=csv",
+  crm:"https://docs.google.com/spreadsheets/d/e/2PACX-1vSVZWeTxJhd8xAWXCWvfxyGSYcHe1GmBsWfpPJem22iF3chRb2LX_C78UD9bAS-7PLEVqRxL0evfBCk/pubhtml?gid=1743300095&single=true&output=csv",
+  expiry:"https://docs.google.com/spreadsheets/d/e/2PACX-1vQ9kg09i4NmnbezajMvoema4scrDgGiTVHzlk9WUBiQr9o2rqX6Ph3HGioEzFgCPqZHKYe-rWKmUNLF/pubhtml?gid=0&single=true&output=csv"
 };
 const csvUrl=u=>u.replace('/pubhtml?','/pub?')+'&output=csv';
 const KWLIST=[['WHOOP MG LIFE','mg life'],['WHOOP 5.0 PEAK','peak'],['SuperKnit Luxe','superknit luxe'],['SuperKnit Band','superknit'],['SportFlex Band','sportflex'],['CoreKnit Band','coreknit'],['CloudKnit Band','cloudknit'],['LeatherLuxe Band','leatherluxe'],['Pulsetto','pulsetto'],['Remy Frames','remy']];

@@ -136,9 +136,9 @@ td.r{text-align:right}td.c{text-align:center}
 /* charts */
 .pbody{padding:16px 17px}
 .dn-num{font-family:var(--mono);font-size:21px;font-weight:700;fill:var(--ink)}.dn-lbl{font-size:9px;fill:var(--ink3)}
-.donutwrap{display:flex;align-items:center;gap:18px}
-.legend{flex:1;display:flex;flex-direction:column;gap:8px;font-size:12px;color:var(--ink2)}
-.legend .li{display:flex;align-items:center;gap:8px}.legend i{width:10px;height:10px;border-radius:3px;flex:none}
+.donutwrap{display:flex;align-items:center;gap:18px}.donutwrap>:first-child{flex:1;display:flex;justify-content:center;align-items:center}
+.legend{flex:1;display:flex;flex-direction:column;gap:8px;align-items:center;font-size:12px;color:var(--ink2)}
+.legend .li{display:flex;align-items:center;gap:10px;min-width:180px}.legend i{width:10px;height:10px;border-radius:3px;flex:none}
 .legend b{font-family:var(--mono);margin-left:auto;color:var(--ink)}
 .hb{display:grid;grid-template-columns:140px 1fr 60px;align-items:center;gap:10px;padding:5px 0}
 .hb-l{font-size:11.5px;color:var(--ink2);font-weight:600;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -377,8 +377,10 @@ const statusPill=s=>({Ordered:'p-blue',Delay:'p-red',Completed:'p-green',Cancell
 // charts
 function donut(el,segs,opt={}){const tot=segs.reduce((s,x)=>s+x.value,0)||1,r=52,c=64,sw=20,circ=2*Math.PI*r;let off=0,p='';
   segs.forEach(s=>{const len=s.value/tot*circ;p+=`<circle cx="${c}" cy="${c}" r="${r}" fill="none" stroke="${s.color}" stroke-width="${sw}" stroke-dasharray="${len} ${circ-len}" stroke-dashoffset="${-off}" transform="rotate(-90 ${c} ${c})"/>`;off+=len;});
-  const cnum=String(opt.center??tot);const fpx=opt.centerFont||Math.max(8,Math.min(21,118/Math.max(1,cnum.length)));
-  el.innerHTML=`<svg viewBox="0 0 128 128" width="${opt.size||138}" height="${opt.size||138}">${p}<text x="64" y="60" text-anchor="middle" class="dn-num" style="font-size:${fpx.toFixed(1)}px">${cnum}</text><text x="64" y="76" text-anchor="middle" class="dn-lbl">${opt.centerLabel||''}</text></svg>`;}
+  const cnum=String(opt.center??tot);const fa=opt.centerFont||Math.min(22,122/Math.max(1,cnum.length));
+  el.innerHTML=`<svg viewBox="0 0 128 128" width="${opt.size||138}" height="${opt.size||138}">${p}<text x="64" y="60" text-anchor="middle" class="dn-num" style="font-size:${fa.toFixed(2)}px">${cnum}</text><text x="64" y="76" text-anchor="middle" class="dn-lbl">${opt.centerLabel||''}</text></svg>`;
+  // bulletproof fit: วัดความกว้างจริงเทียบรูตรงกลาง (2*(r-sw/2)=84) แล้วย่อฟอนต์ตามสัดส่วนถ้ายังเกิน — พอดีวงเสมอทุกขนาดตัวเลข
+  const t=el.querySelector('.dn-num');if(t){const w=t.getBBox().width,target=78;if(w>target)t.style.fontSize=(fa*target/w).toFixed(2)+'px';}}
 function legend(el,segs,fmt){el.innerHTML=segs.map(s=>`<div class="li"><i style="background:${s.color}"></i>${s.label}<b>${fmt?fmt(s.value):s.value}</b></div>`).join('');}
 function hbars(el,items,fmt){const max=Math.max(...items.map(i=>i.value),1);el.innerHTML=items.map(i=>`<div class="hb"><div class="hb-l">${i.label}</div><div class="hb-t"><div class="hb-f" style="width:${Math.max(3,i.value/max*100)}%;background:${i.color||'var(--brand)'}"></div></div><div class="hb-v">${fmt?fmt(i.value):i.value}</div></div>`).join('');}
 function lineChart(el,pts,fmt){const W=660,H=170,pl=30,pr=12,pt=14,pb=24,max=Math.max(...pts.map(p=>p.y),1),iw=W-pl-pr,ih=H-pt-pb;
@@ -459,7 +461,7 @@ function renderAccounting(){const a=DATA.accounting;
   lineChart(document.getElementById('a-line'),ag.trend,v=>'฿'+(v/1000).toFixed(0)+'k');
   const payColors={kbank:'#90282D',creditcard:'#2563EB',other:'#C2820B'};
   const payseg=Object.entries(ag.pay).map(([k,v])=>({label:k,value:v,color:payColors[k]||'#8A93A2'}));
-  donut(document.getElementById('a-paydonut'),payseg.length?payseg:[{label:'—',value:1,color:'#E5E0D5'}],{center:baht(Object.values(ag.pay).reduce((x,y)=>x+y,0)),centerLabel:'รวม',size:140});
+  donut(document.getElementById('a-paydonut'),payseg.length?payseg:[{label:'—',value:1,color:'#E5E0D5'}],{center:baht(Object.values(ag.pay).reduce((x,y)=>x+y,0)),centerLabel:'รวม',size:184});
   legend(document.getElementById('a-paylegend'),payseg,baht);
   const chColors={LINE:'#15A24A',Facebook:'#2563EB',Instagram:'#C2410C',Shopify:'#7C3AED',Other:'#8A93A2'};
   hbars(document.getElementById('a-chbars'),Object.entries(ag.ch).map(([k,v])=>({label:k,value:v,color:chColors[k]||'#8A93A2'})).sort((x,y)=>y.value-x.value),baht);

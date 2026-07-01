@@ -137,7 +137,7 @@ td.r{text-align:right}td.c{text-align:center}
 .pbody{padding:16px 17px}
 .dn-num{font-family:var(--mono);font-size:21px;font-weight:700;fill:var(--ink)}.dn-lbl{font-size:9px;fill:var(--ink3)}
 .donutwrap{display:flex;align-items:center;gap:18px}
-.legend{display:flex;flex-direction:column;gap:8px;font-size:12px;color:var(--ink2)}
+.legend{flex:1;display:flex;flex-direction:column;gap:8px;font-size:12px;color:var(--ink2)}
 .legend .li{display:flex;align-items:center;gap:8px}.legend i{width:10px;height:10px;border-radius:3px;flex:none}
 .legend b{font-family:var(--mono);margin-left:auto;color:var(--ink)}
 .hb{display:grid;grid-template-columns:140px 1fr 60px;align-items:center;gap:10px;padding:5px 0}
@@ -377,9 +377,8 @@ const statusPill=s=>({Ordered:'p-blue',Delay:'p-red',Completed:'p-green',Cancell
 // charts
 function donut(el,segs,opt={}){const tot=segs.reduce((s,x)=>s+x.value,0)||1,r=52,c=64,sw=20,circ=2*Math.PI*r;let off=0,p='';
   segs.forEach(s=>{const len=s.value/tot*circ;p+=`<circle cx="${c}" cy="${c}" r="${r}" fill="none" stroke="${s.color}" stroke-width="${sw}" stroke-dasharray="${len} ${circ-len}" stroke-dashoffset="${-off}" transform="rotate(-90 ${c} ${c})"/>`;off+=len;});
-  const cnum=String(opt.center??tot);const fs=opt.centerFont||Math.min(21,Math.max(9,Math.round(120/Math.max(1,cnum.length))));
-  const tl=cnum.length>9?' textLength="76" lengthAdjust="spacingAndGlyphs"':'';
-  el.innerHTML=`<svg viewBox="0 0 128 128" width="${opt.size||138}" height="${opt.size||138}">${p}<text x="64" y="60" text-anchor="middle" class="dn-num" font-size="${fs}"${tl}>${cnum}</text><text x="64" y="76" text-anchor="middle" class="dn-lbl">${opt.centerLabel||''}</text></svg>`;}
+  const cnum=String(opt.center??tot);const fpx=opt.centerFont||Math.max(8,Math.min(21,118/Math.max(1,cnum.length)));
+  el.innerHTML=`<svg viewBox="0 0 128 128" width="${opt.size||138}" height="${opt.size||138}">${p}<text x="64" y="60" text-anchor="middle" class="dn-num" style="font-size:${fpx.toFixed(1)}px">${cnum}</text><text x="64" y="76" text-anchor="middle" class="dn-lbl">${opt.centerLabel||''}</text></svg>`;}
 function legend(el,segs,fmt){el.innerHTML=segs.map(s=>`<div class="li"><i style="background:${s.color}"></i>${s.label}<b>${fmt?fmt(s.value):s.value}</b></div>`).join('');}
 function hbars(el,items,fmt){const max=Math.max(...items.map(i=>i.value),1);el.innerHTML=items.map(i=>`<div class="hb"><div class="hb-l">${i.label}</div><div class="hb-t"><div class="hb-f" style="width:${Math.max(3,i.value/max*100)}%;background:${i.color||'var(--brand)'}"></div></div><div class="hb-v">${fmt?fmt(i.value):i.value}</div></div>`).join('');}
 function lineChart(el,pts,fmt){const W=660,H=170,pl=30,pr=12,pt=14,pb=24,max=Math.max(...pts.map(p=>p.y),1),iw=W-pl-pr,ih=H-pt-pb;

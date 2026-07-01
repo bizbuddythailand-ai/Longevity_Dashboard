@@ -317,17 +317,20 @@ td.r{text-align:right}td.c{text-align:center}
         <div class="cards c5">
           <div class="stat"><div class="lbl">Total Customers</div><div class="big" id="c-total">0</div><div class="meta" id="c-basemeta">—</div></div>
           <div class="stat"><div class="lbl">Customer Value</div><div class="big" id="c-value">฿0</div><div class="meta">รวมยอดซื้อ (sample)</div></div>
-          <div class="stat"><div class="lbl" style="color:#92670A">VIP</div><div class="big" id="c-vip" style="color:#B8860B">0</div><div class="meta">ยอดซื้อ ≥ ฿30,000</div></div>
+          <div class="stat"><div class="lbl" style="color:#92670A">🏆 Platinum</div><div class="big" id="c-vip" style="color:#B8860B">0</div><div class="meta">ยอดซื้อ ≥ ฿50,000</div></div>
           <div class="stat"><div class="lbl" style="color:#C2410C">Need Follow-up</div><div class="big" id="c-follow" style="color:#EA580C">0</div><div class="meta">ไม่ได้ซื้อ &gt; 60 วัน</div></div>
           <div class="stat"><div class="lbl">Missing Contact</div><div class="big" id="c-missing">0</div><div class="meta">ไม่มีเบอร์/อีเมล</div></div>
         </div>
         <div class="three">
           <div class="panel"><div class="phead"><h3>Top Customers</h3><div class="hint">by Total Pay</div></div><div class="pbody" id="c-top"></div></div>
-          <div class="panel"><div class="phead"><h3>Customer Recency</h3><div class="hint">วันที่ซื้อล่าสุด</div></div><div class="pbody"><div class="donutwrap"><div id="c-donut"></div><div class="legend" id="c-legend"></div></div></div></div>
+          <div class="panel"><div class="phead"><h3>Customer Tier</h3><div class="hint">แบ่งตามยอดซื้อรวม</div></div><div class="pbody"><div class="donutwrap"><div id="c-donut"></div><div class="legend" id="c-legend"></div></div></div></div>
           <div class="panel"><div class="phead"><h3>Product Interest</h3><div class="hint">สินค้าที่ลูกค้าซื้อ</div></div><div class="pbody" id="c-interest"></div></div>
         </div>
+        <div class="panel" id="c-folpanel"><div class="phead"><h3>🔔 Follow-up ด่วน</h3><div class="hint">ไม่ได้ซื้อเกิน 90 วัน · เรียงจากนานสุด</div></div>
+          <div class="scroll"><table><thead><tr><th>Code</th><th>ลูกค้า</th><th>Tel</th><th class="r">Total Pay</th><th>ซื้อล่าสุด</th><th class="r">ไม่ซื้อ(วัน)</th><th class="c">Tier</th><th></th></tr></thead><tbody id="c-foltbody"></tbody></table></div>
+          <div class="pager" id="c-folpager"></div></div>
         <div class="panel"><div class="phead"><h3>ลูกค้าทั้งหมด</h3><div class="ctrls"><div class="field">Segment
-          <select id="c-seg"><option value="all">ทั้งหมด</option><option>VIP</option><option>Active</option><option>Warm</option><option>Risk</option><option>Dormant</option><option>ยังไม่ซื้อ</option></select></div><div class="field">ซื้อล่าสุด <input type="date" id="c-from" class="dt"><span class="dts">–</span><input type="date" id="c-to" class="dt"></div><button class="btn sm" id="c-clear">ล้าง</button></div></div>
+          <select id="c-seg"><option value="all">ทั้งหมด</option><option>Platinum</option><option>Gold</option><option>Silver</option><option>Bronze</option></select></div><div class="field">ซื้อล่าสุด <input type="date" id="c-from" class="dt"><span class="dts">–</span><input type="date" id="c-to" class="dt"></div><button class="btn sm" id="c-clear">ล้าง</button></div></div>
           <div class="scroll s10"><table><thead><tr><th>Code</th><th>ลูกค้า</th><th>Tel</th><th class="r">Total Pay</th><th>ซื้อล่าสุด</th><th class="r">ไม่ซื้อ(วัน)</th><th class="c">Segment</th><th>Products</th><th></th></tr></thead><tbody id="c-tbody"></tbody></table></div>
           <div class="pager" id="c-pager"></div>
           <div class="note">◆ คลิกแถวเพื่อดูรายละเอียด · Recency คำนวณจากลูกค้าล่าสุดที่โหลดมา (ทั้งฐานจริง ~3,567 ราย)</div></div>
@@ -343,7 +346,7 @@ td.r{text-align:right}td.c{text-align:center}
           <div class="stat"><div class="lbl" style="color:#9A6608">Watch 61–90</div><div class="big" id="e-watch" style="color:#C2820B">0</div><div class="meta">เฝ้าระวัง</div></div>
           <div class="stat"><div class="lbl">Total At Risk</div><div class="big" id="e-risk">0</div><div class="meta">สินค้ากลุ่มเสี่ยง</div></div>
         </div>
-        <div class="panel"><div class="phead"><h3>สินค้าใกล้หมดอายุ</h3><div class="hint">เรียงด่วนสุดก่อน · รูปเป็น placeholder</div></div><div class="cgrid" id="e-grid"></div></div>
+        <div class="panel"><div class="phead"><h3>สินค้าใกล้หมดอายุ</h3><div class="hint" id="e-gridhint">เรียงด่วนสุดก่อน · รูปเป็น placeholder</div></div><div class="cgrid" id="e-grid"></div><div class="pager" id="e-gridpager"></div></div>
         <div class="panel"><div class="phead"><h3>ตารางวันหมดอายุ</h3><div class="ctrls"><div class="field">Status
           <select id="e-status"><option value="all">ทั้งหมด</option><option>Expired</option><option>Critical</option><option>Warning</option><option>Watch</option><option>Normal</option><option>Missing</option></select></div><div class="field">หมดอายุ <input type="date" id="e-from" class="dt"><span class="dts">–</span><input type="date" id="e-to" class="dt"></div><button class="btn sm" id="e-clear">ล้าง</button></div></div>
           <div class="scroll s10"><table><thead><tr><th>Code</th><th>Barcode</th><th>ชื่อสินค้า</th><th>หมดอายุ</th><th class="r">เหลือ(วัน)</th><th class="r">Stock</th><th class="c">Status</th></tr></thead><tbody id="e-tbody"></tbody></table></div>
@@ -388,12 +391,14 @@ function lineChart(el,pts,fmt){const W=660,H=170,pl=30,pr=12,pt=14,pb=24,max=Mat
 
 // pagination (Accounting / CRM / Expiry)
 const PS=10;
-let aPage=1,cPage=1,ePage=1;
+let aPage=1,cPage=1,ePage=1,folPage=1,egPage=1;
 function goAcc(p){aPage=p;renderAccounting();}
 function goCrm(p){cPage=p;renderCRM();}
+function goFol(p){folPage=p;renderFollowup();}
+function goEgrid(p){egPage=p;renderExpiry();}
 function goExp(p){ePage=p;renderExpiry();}
-function pagerHTML(total,page,goFn){const pages=Math.max(1,Math.ceil(total/PS));if(page>pages)page=pages;
-  const from=total?(page-1)*PS+1:0,to=Math.min(total,page*PS);
+function pagerHTML(total,page,goFn,ps){ps=ps||PS;const pages=Math.max(1,Math.ceil(total/ps));if(page>pages)page=pages;
+  const from=total?(page-1)*ps+1:0,to=Math.min(total,page*ps);
   const set=new Set([1,pages,page]);for(let i=page-1;i<=page+1;i++)if(i>=1&&i<=pages)set.add(i);
   const ss=[...set].sort((a,b)=>a-b);let mid='',prev=0;
   ss.forEach(p=>{if(prev&&p-prev>1)mid+='<span class="pg-e">…</span>';mid+=`<button class="pg-n${p===page?' on':''}" onclick="${goFn}(${p})">${p}</button>`;prev=p;});
@@ -464,25 +469,40 @@ function renderAccounting(){const a=DATA.accounting;
   document.getElementById('a-pager').innerHTML=pagerHTML(arows.length,aPage,'goAcc');}
 
 // CRM
-const SEG={VIP:'p-gold',Active:'p-green',Warm:'p-amber',Risk:'p-orange',Dormant:'p-red','ยังไม่ซื้อ':'p-slate'};
+const SEG={Platinum:'p-dark',Gold:'p-gold',Silver:'p-slate',Bronze:'p-amber'};
 let cSeg='all',cFrom='',cTo='';
 function renderCRM(){const c=DATA.crm,su=c.summary;
-  document.getElementById('c-total').textContent=su.total;document.getElementById('c-basemeta').textContent=`จากฐาน ~${numf(su.est_base)} ราย`;
-  document.getElementById('c-value').textContent=baht(su.value);document.getElementById('c-vip').textContent=su.vip;
-  document.getElementById('c-follow').textContent=su.followup;document.getElementById('c-missing').textContent=su.missing;
-  hbars(document.getElementById('c-top'),c.top.map(x=>({label:x.name.replace('คุณ',''),value:x.pay})),baht);
-  const rc=c.recency,rseg=[{label:'0–30 วัน',value:rc['0-30'],color:'#15A24A'},{label:'31–60 วัน',value:rc['31-60'],color:'#C2820B'},{label:'61–90 วัน',value:rc['61-90'],color:'#EA580C'},{label:'90+ วัน',value:rc['90+'],color:'#DC2626'},{label:'ยังไม่เคยซื้อ',value:rc['never'],color:'#94A3B8'}];
-  donut(document.getElementById('c-donut'),rseg,{center:su.total,centerLabel:'ลูกค้า',size:138});
-  legend(document.getElementById('c-legend'),rseg);
-  hbars(document.getElementById('c-interest'),c.interest.slice(0,7).map(x=>({label:x.label,value:x.value,color:'#90282D'})));
-  const cdf=(cFrom||cTo);const f=r=>(cSeg==='all'||r.seg===cSeg)&&(!cdf||inRange(parseDateLoose(r.last),cFrom,cTo));
+  const cdf=(cFrom||cTo);const hasFilter=cSeg!=='all'||cdf;
+  const f=r=>(cSeg==='all'||r.seg===cSeg)&&(!cdf||inRange(parseDateLoose(r.last),cFrom,cTo));
   const crows=c.rows.filter(f).sort((x,y)=>parseInt(y.code.slice(1))-parseInt(x.code.slice(1)));
+  const fTotal=hasFilter?crows.length:su.total;const fValue=hasFilter?crows.reduce((s,r)=>s+r.pay,0):su.value;
+  const fPlat=hasFilter?crows.filter(r=>r.seg==='Platinum').length:su.vip;
+  const fFollow=hasFilter?crows.filter(r=>r.days!==null&&r.days>60).length:su.followup;
+  const fMissing=hasFilter?crows.filter(r=>!r.tel_full).length:su.missing;
+  document.getElementById('c-total').textContent=fTotal;document.getElementById('c-basemeta').textContent=hasFilter?`กรองจาก ${numf(su.total)} ราย`:`จากฐาน ~${numf(su.est_base)} ราย`;
+  document.getElementById('c-value').textContent=baht(fValue);document.getElementById('c-vip').textContent=fPlat;
+  document.getElementById('c-follow').textContent=fFollow;document.getElementById('c-missing').textContent=fMissing;
+  const fTi=hasFilter?{Platinum:crows.filter(r=>r.seg==='Platinum').length,Gold:crows.filter(r=>r.seg==='Gold').length,Silver:crows.filter(r=>r.seg==='Silver').length,Bronze:crows.filter(r=>r.seg==='Bronze').length}:(c.tiers||{Platinum:0,Gold:0,Silver:0,Bronze:0});
+  const fTop=hasFilter?[...crows].sort((a,b)=>b.pay-a.pay).slice(0,10):c.top;
+  hbars(document.getElementById('c-top'),fTop.map(x=>({label:x.name.replace('คุณ',''),value:x.pay})),baht);
+  const tseg=[{label:'🏆 Platinum',value:fTi.Platinum,color:'#1F2937'},{label:'🥇 Gold',value:fTi.Gold,color:'#B8860B'},{label:'🥈 Silver',value:fTi.Silver,color:'#64748B'},{label:'🥉 Bronze',value:fTi.Bronze,color:'#CD7F32'}];
+  donut(document.getElementById('c-donut'),tseg,{center:fTotal,centerLabel:'ลูกค้า',size:138});
+  legend(document.getElementById('c-legend'),tseg);
+  hbars(document.getElementById('c-interest'),c.interest.slice(0,7).map(x=>({label:x.label,value:x.value,color:'#90282D'})));
   cPage=Math.min(cPage,Math.max(1,Math.ceil(crows.length/PS)));
   document.getElementById('c-tbody').innerHTML=crows.slice((cPage-1)*PS,cPage*PS).map(r=>`<tr class="clickrow" data-ci="${c.rows.indexOf(r)}"><td class="code">${r.code}</td><td class="nm" title="${r.name}">${r.name}</td><td class="num muted" style="font-size:11px">${r.tel}</td><td class="r"><b class="num">${baht(r.pay)}</b></td><td class="num muted" style="font-size:11px">${r.last}</td><td class="r num">${r.days===null?'—':r.days}</td><td class="c"><span class="pill ${SEG[r.seg]}"><span class="pd"></span>${r.seg}</span></td><td>${r.products.length?`<span class="muted" style="font-size:11px">${r.products.slice(0,2).join(', ')}${r.products.length>2?' +':''}</span>`:'<span class="muted">—</span>'}</td><td><span class="lnk">ดู ↗</span></td></tr>`).join('')||`<tr><td colspan="9" class="empty">ไม่มีลูกค้าในกลุ่มนี้</td></tr>`;
   document.getElementById('c-pager').innerHTML=pagerHTML(crows.length,cPage,'goCrm');
-  document.querySelectorAll('#c-tbody .clickrow').forEach(tr=>tr.addEventListener('click',()=>openDrawer(DATA.crm.rows[+tr.dataset.ci])));}
+  document.querySelectorAll('#c-tbody .clickrow').forEach(tr=>tr.addEventListener('click',()=>openDrawer(DATA.crm.rows[+tr.dataset.ci])));
+  renderFollowup();}
+function renderFollowup(){const c=DATA.crm;
+  const fol=c.rows.filter(r=>r.days!==null&&r.days>=90).sort((a,b)=>b.days-a.days);
+  const hd=document.querySelector('#c-folpanel .hint');if(hd)hd.textContent=`ไม่ได้ซื้อเกิน 90 วัน · ${fol.length.toLocaleString('en-US')} คน · เรียงจากนานสุด`;
+  folPage=Math.min(folPage,Math.max(1,Math.ceil(fol.length/PS)));
+  document.getElementById('c-foltbody').innerHTML=fol.slice((folPage-1)*PS,folPage*PS).map(r=>`<tr class="clickrow" data-ci="${c.rows.indexOf(r)}"><td class="code">${r.code}</td><td class="nm" title="${r.name}">${r.name}</td><td class="num muted" style="font-size:11px">${r.tel}</td><td class="r"><b class="num">${baht(r.pay)}</b></td><td class="num muted" style="font-size:11px">${r.last}</td><td class="r num"><b style="color:#DC2626">${r.days}</b></td><td class="c"><span class="pill ${SEG[r.seg]}"><span class="pd"></span>${r.seg}</span></td><td><span class="lnk">ดู ↗</span></td></tr>`).join('')||`<tr><td colspan="8" class="empty">ไม่มีลูกค้าที่ต้อง follow-up ✅</td></tr>`;
+  document.getElementById('c-folpager').innerHTML=pagerHTML(fol.length,folPage,'goFol');
+  document.querySelectorAll('#c-foltbody .clickrow').forEach(tr=>tr.addEventListener('click',()=>openDrawer(DATA.crm.rows[+tr.dataset.ci])));}
 function openDrawer(r){document.getElementById('d-name').textContent=r.name;document.getElementById('d-code').textContent=r.code+' · '+r.handle;
-  const sugg=r.days===null?`ลูกค้าใหม่ ยังไม่เคยซื้อ — เสนอโปรลูกค้าใหม่/สินค้าแนะนำ เพื่อปิดการขายครั้งแรก`:r.seg==='VIP'?`ลูกค้า VIP (ซื้อรวม ${baht(r.pay)}) — ดูแลพิเศษ เสนอรุ่นใหม่/ของพรีเมียม`:r.days>90?`ห่างหายไป ${r.days} วัน — ส่งโปร reactivation`:r.days>60?`ไม่ได้ซื้อ ${r.days} วัน — follow up ด้วยสินค้าเสริม`:`ลูกค้า Active — เสนอ accessory/สายรุ่นใหม่เพื่อเพิ่มยอด`;
+  const sugg=r.seg==='Platinum'?`🏆 ลูกค้า Platinum (ซื้อรวม ${baht(r.pay)}) — ดูแลพิเศษ เสนอรุ่นใหม่/ของพรีเมียม`:r.seg==='Gold'?`🥇 ลูกค้า Gold (ซื้อรวม ${baht(r.pay)}) — เสนอ upgrade/สินค้าเสริมเพื่อขึ้น Platinum`:r.seg==='Silver'?`🥈 ลูกค้า Silver (ซื้อรวม ${baht(r.pay)}) — เสนอโปรเพื่อเพิ่มยอดขึ้น Gold`:`🥉 ลูกค้า Bronze (ซื้อรวม ${baht(r.pay)}) — เสนอสินค้าแนะนำ/โปรลูกค้าใหม่`;
   document.getElementById('d-body').innerHTML=`<div class="drow"><span class="k">เบอร์โทร</span><span class="v">${r.tel_full}</span></div><div class="drow"><span class="k">Segment</span><span class="v"><span class="pill ${SEG[r.seg]}"><span class="pd"></span>${r.seg}</span></span></div><div class="drow"><span class="k">Total Pay</span><span class="v num">${baht(r.pay)}</span></div><div class="drow"><span class="k">ซื้อล่าสุด</span><span class="v">${r.last}</span></div><div class="drow"><span class="k">ไม่ได้ซื้อ</span><span class="v">${r.days===null?'ยังไม่เคยซื้อ':r.days+' วัน'}</span></div><div class="dsec">สินค้าที่เคยซื้อ</div><div class="chips">${r.products.length?r.products.map(p=>`<span class="chip2">${p}</span>`).join(''):'<span class="muted">— ไม่มีข้อมูล —</span>'}</div><div class="dsec">Suggested Action</div><div class="suggest">${sugg}</div>`;
   document.getElementById('drawer').classList.add('on');document.getElementById('ovl').classList.add('on');}
 function closeDrawer(){document.getElementById('drawer').classList.remove('on');document.getElementById('ovl').classList.remove('on');}
@@ -491,12 +511,21 @@ function closeDrawer(){document.getElementById('drawer').classList.remove('on');
 const ESTAT={Expired:{p:'p-dark',img:'#7F1D1D'},Critical:{p:'p-red',img:'#DC2626'},Warning:{p:'p-orange',img:'#EA580C'},Watch:{p:'p-amber',img:'#C2820B'},Normal:{p:'p-green',img:'#15A24A'},Missing:{p:'p-slate',img:'#64748B'}};
 let eStatus='all',eFrom='',eTo='';
 function renderExpiry(){const e=DATA.expiry,ct=e.counts;
-  if(e.headers&&e.rows.length===0){const hs=e.headers.filter(h=>h).map(h=>`<code style="background:var(--brand-wash);color:var(--brand-ink);padding:1px 6px;border-radius:5px;font-size:11px">${h}</code>`).join(' ');document.getElementById('e-banner').innerHTML=`<div class="alert warn">เชื่อมต่อชีต MONITOR ได้แล้ว แต่ยังจับคอลัมน์ไม่ตรง — หัวคอลัมน์ที่พบ: ${hs||'(ไม่มีหัวตาราง)'} · แจ้งชื่อคอลัมน์วันหมดอายุ/ชื่อสินค้ามาได้เลย</div>`;['e-expired','e-critical','e-warning','e-watch','e-risk'].forEach(id=>document.getElementById(id).textContent=0);document.getElementById('e-grid').innerHTML='';document.getElementById('e-tbody').innerHTML='<tr><td colspan="7" class="empty">รอแมปคอลัมน์ให้ตรงกับชีต</td></tr>';document.getElementById('e-pager').innerHTML='';return;}
-  document.getElementById('e-expired').textContent=ct.Expired;document.getElementById('e-critical').textContent=ct.Critical;document.getElementById('e-warning').textContent=ct.Warning;document.getElementById('e-watch').textContent=ct.Watch;document.getElementById('e-risk').textContent=e.at_risk;
-  let b='';if(ct.Expired)b+=`<div class="alert crit">🚨 มีสินค้า ${ct.Expired} รายการหมดอายุแล้ว ต้องตรวจสอบทันที</div>`;if(ct.Critical)b+=`<div class="alert warn">⚠️ มีสินค้า ${ct.Critical} รายการใกล้หมดอายุภายใน 30 วัน</div>`;document.getElementById('e-banner').innerHTML=b;
+  if(e.headers&&e.rows.length===0){const hs=e.headers.filter(h=>h).map(h=>`<code style="background:var(--brand-wash);color:var(--brand-ink);padding:1px 6px;border-radius:5px;font-size:11px">${h}</code>`).join(' ');document.getElementById('e-banner').innerHTML=`<div class="alert warn">เชื่อมต่อชีต MONITOR ได้แล้ว แต่ยังจับคอลัมน์ไม่ตรง — หัวคอลัมน์ที่พบ: ${hs||'(ไม่มีหัวตาราง)'} · แจ้งชื่อคอลัมน์วันหมดอายุ/ชื่อสินค้ามาได้เลย</div>`;['e-expired','e-critical','e-warning','e-watch','e-risk'].forEach(id=>document.getElementById(id).textContent=0);document.getElementById('e-grid').innerHTML='';document.getElementById('e-gridpager').innerHTML='';document.getElementById('e-tbody').innerHTML='<tr><td colspan="7" class="empty">รอแมปคอลัมน์ให้ตรงกับชีต</td></tr>';document.getElementById('e-pager').innerHTML='';return;}
   const edf=(eFrom||eTo);const inR=r=>!edf||inRange(r.exp,eFrom,eTo);
-  document.getElementById('e-grid').innerHTML=e.rows.filter(r=>r.status!=='Normal'&&inR(r)).slice(0,12).map(r=>{const st=ESTAT[r.status]||ESTAT.Missing;const dl=r.days_left;const dtxt=dl===null?'ไม่ระบุวันหมดอายุ':dl<0?`หมดอายุ ${-dl} วัน`:`เหลือ ${dl} วัน`;const badge=dl===null?'—':dl<0?'EXP':dl+'d';const expt=r.exp?`${thShort(r.exp)} ${r.exp.split('-')[0]}`:'—';const img=r.image?`<div class="img imgphoto" style="background-image:url('${r.image}')"><span class="days">${badge}</span></div>`:`<div class="img" style="background:linear-gradient(135deg,${st.img},${st.img}cc)"><span>${r.name.split(' - ')[0].split('(')[0].trim()}</span><span class="days">${badge}</span></div>`;
-    return `<div class="ecard">${img}<div class="ebody"><div class="en" title="${r.name}">${r.name}</div><div class="ec">${r.code}</div><div class="erow"><span>หมดอายุ</span><b>${expt}</b></div><div class="erow"><span>${dtxt}</span><span class="pill ${st.p}"><span class="pd"></span>${r.status}</span></div><div class="erow"><span>Stock</span><b class="num">${r.qty} ชิ้น</b></div><div class="act">${r.status==='Expired'?'นำออกจากสต็อก / ตรวจสอบ':r.status==='Critical'?'ทำโปรเคลียร์สต๊อก ดันขายก่อน':r.status==='Warning'?'เริ่มวางแผนโปรโมท':r.status==='Missing'?'เติมวันหมดอายุในชีต':'เฝ้าระวัง'}</div></div></div>`;}).join('')||`<div class="empty">ไม่มีสินค้าใกล้หมดอายุ ✅</div>`;
+  const hasEF=eStatus!=='all'||edf;
+  const fCt=hasEF?(()=>{const fc={Expired:0,Critical:0,Warning:0,Watch:0,Normal:0,Missing:0};e.rows.filter(r=>(eStatus==='all'||r.status===eStatus)&&inR(r)).forEach(r=>fc[r.status]++);return fc;})():{...ct};
+  const fRisk=fCt.Expired+fCt.Critical+fCt.Warning+fCt.Watch;
+  document.getElementById('e-expired').textContent=fCt.Expired;document.getElementById('e-critical').textContent=fCt.Critical;document.getElementById('e-warning').textContent=fCt.Warning;document.getElementById('e-watch').textContent=fCt.Watch;document.getElementById('e-risk').textContent=fRisk;
+  const bn=document.getElementById('e-banner');bn.textContent='';if(fCt.Expired){const d=document.createElement('div');d.className='alert crit';d.textContent='🚨 มีสินค้า '+fCt.Expired+' รายการหมดอายุแล้ว ต้องตรวจสอบทันที';bn.appendChild(d);}if(fCt.Critical){const d=document.createElement('div');d.className='alert warn';d.textContent='⚠️ มีสินค้า '+fCt.Critical+' รายการใกล้หมดอายุภายใน 30 วัน';bn.appendChild(d);}
+  const GPS=6;
+  const grows=e.rows.filter(inR);
+  egPage=Math.min(egPage,Math.max(1,Math.ceil(grows.length/GPS)));
+  const nRisk=grows.filter(r=>r.status!=='Normal').length;
+  const gh=document.getElementById('e-gridhint');if(gh)gh.textContent=`เรียงด่วนสุดก่อน · รูปเป็น placeholder · ${grows.length.toLocaleString('en-US')} รายการ${nRisk?` · เสี่ยง ${nRisk}`:''}`;
+  document.getElementById('e-grid').innerHTML=grows.slice((egPage-1)*GPS,egPage*GPS).map(r=>{const st=ESTAT[r.status]||ESTAT.Missing;const dl=r.days_left;const dtxt=dl===null?'ไม่ระบุวันหมดอายุ':dl<0?`หมดอายุ ${-dl} วัน`:`เหลือ ${dl} วัน`;const badge=dl===null?'—':dl<0?'EXP':dl+'d';const expt=r.exp?`${thShort(r.exp)} ${r.exp.split('-')[0]}`:'—';const img=r.image?`<div class="img imgphoto" style="background-image:url('${r.image}')"><span class="days">${badge}</span></div>`:`<div class="img" style="background:linear-gradient(135deg,${st.img},${st.img}cc)"><span>${r.name.split(' - ')[0].split('(')[0].trim()}</span><span class="days">${badge}</span></div>`;
+    return `<div class="ecard">${img}<div class="ebody"><div class="en" title="${r.name}">${r.name}</div><div class="ec">${r.code}</div><div class="erow"><span>หมดอายุ</span><b>${expt}</b></div><div class="erow"><span>${dtxt}</span><span class="pill ${st.p}"><span class="pd"></span>${r.status}</span></div><div class="erow"><span>Stock</span><b class="num">${r.qty} ชิ้น</b></div><div class="act">${r.status==='Expired'?'นำออกจากสต็อก / ตรวจสอบ':r.status==='Critical'?'ทำโปรเคลียร์สต๊อก ดันขายก่อน':r.status==='Warning'?'เริ่มวางแผนโปรโมท':r.status==='Missing'?'เติมวันหมดอายุในชีต':'ยังอยู่ในเกณฑ์ปกติ'}</div></div></div>`;}).join('')||`<div class="empty">ไม่มีสินค้าในชีต</div>`;
+  document.getElementById('e-gridpager').innerHTML=grows.length>GPS?pagerHTML(grows.length,egPage,'goEgrid',GPS):'';
   const f=r=>(eStatus==='all'||r.status===eStatus)&&inR(r);
   const erows=e.rows.filter(f);ePage=Math.min(ePage,Math.max(1,Math.ceil(erows.length/PS)));
   document.getElementById('e-tbody').innerHTML=erows.slice((ePage-1)*PS,ePage*PS).map(r=>{const st=ESTAT[r.status]||ESTAT.Missing;return `<tr><td class="code">${r.code}</td><td class="code">${r.barcode||'—'}</td><td class="nm" title="${r.name}">${r.name}</td><td class="num muted" style="font-size:11px">${r.exp?thShort(r.exp)+' '+r.exp.split('-')[0]:'—'}</td><td class="r"><b class="num" style="color:${st.img}">${r.days_left===null?'—':r.days_left}</b></td><td class="r num">${r.qty}</td><td class="c"><span class="pill ${st.p}"><span class="pd"></span>${r.status}</span></td></tr>`;}).join('')||`<tr><td colspan="7" class="empty">ไม่มีรายการ</td></tr>`;
@@ -523,10 +552,10 @@ gid('c-seg').addEventListener('change',e=>{cSeg=e.target.value;cPage=1;renderCRM
 gid('c-from').addEventListener('change',e=>{cFrom=e.target.value;cPage=1;renderCRM();});
 gid('c-to').addEventListener('change',e=>{cTo=e.target.value;cPage=1;renderCRM();});
 gid('c-clear').addEventListener('click',()=>{cSeg='all';cFrom='';cTo='';gid('c-seg').value='all';gid('c-from').value='';gid('c-to').value='';cPage=1;renderCRM();});
-gid('e-status').addEventListener('change',e=>{eStatus=e.target.value;ePage=1;renderExpiry();});
-gid('e-from').addEventListener('change',e=>{eFrom=e.target.value;ePage=1;renderExpiry();});
-gid('e-to').addEventListener('change',e=>{eTo=e.target.value;ePage=1;renderExpiry();});
-gid('e-clear').addEventListener('click',()=>{eStatus='all';eFrom='';eTo='';gid('e-status').value='all';gid('e-from').value='';gid('e-to').value='';ePage=1;renderExpiry();});
+gid('e-status').addEventListener('change',e=>{eStatus=e.target.value;ePage=1;egPage=1;renderExpiry();});
+gid('e-from').addEventListener('change',e=>{eFrom=e.target.value;ePage=1;egPage=1;renderExpiry();});
+gid('e-to').addEventListener('change',e=>{eTo=e.target.value;ePage=1;egPage=1;renderExpiry();});
+gid('e-clear').addEventListener('click',()=>{eStatus='all';eFrom='';eTo='';gid('e-status').value='all';gid('e-from').value='';gid('e-to').value='';ePage=1;egPage=1;renderExpiry();});
 document.getElementById('d-close').addEventListener('click',closeDrawer);document.getElementById('ovl').addEventListener('click',closeDrawer);
 // initial render from baked sample (instant), then upgrade with live sheet data
 const asof2=thShort(DATA.data_through)+' '+DATA.data_through.split('-')[0];
@@ -627,12 +656,13 @@ function compAccounting(raw){const H=H_of(raw),rows=raw.slice(1);
 function compCRM(raw,accObj){const H=H_of(raw),rows=raw.slice(1);
   const iCode=colIdx(H,'customer code','รหัสลูกค้า'),iN=colIdx(H,'customer name','ชื่อลูกค้า'),iNote=colIdx(H,'หมายเหตุ'),iTel=colIdx(H,'tel','เบอร'),iPay=colIdx(H,'total pay'),iLast=colIdx(H,'ซื้อล่าสุด'),iDays=colIdx(H,'ไม่ได้ซื้อ');
   const byName={};(accObj&&accObj.rows||[]).forEach(a=>{(byName[a.cust]=byName[a.cust]||[]);KWLIST.forEach(([l,k])=>{if(a.prod.toLowerCase().includes(k)&&!byName[a.cust].includes(l))byName[a.cust].push(l);});});
-  const segOf=(d,p)=>d===null?'ยังไม่ซื้อ':p>=30000?'VIP':d<=30?'Active':d<=60?'Warm':d<=90?'Risk':'Dormant';
+  const segOf=(d,p)=>p>=50000?'Platinum':p>=30000?'Gold':p>=15000?'Silver':'Bronze';
   const crm=[];rows.forEach(r=>{const code=(r[iCode]||'').trim();if(!code)return;const name=(r[iN]||'').trim();const tel=(r[iTel]||'').trim();const pay=numv(r[iPay]);const dr=(r[iDays]||'').trim();const days=(dr===''||dr==='-')?null:Math.round(numv(dr));crm.push({code,name,handle:(r[iNote]||'').trim()||'-',tel:tel?tel.slice(0,3)+'xxx'+tel.slice(-2):'—',tel_full:tel,pay,last:(r[iLast]||'').trim()||'-',days,seg:segOf(days,pay),products:byName[name]||[]});});
   const value=crm.reduce((s,c)=>s+c.pay,0);const recency={'0-30':0,'31-60':0,'61-90':0,'90+':0,never:0};crm.forEach(c=>{if(c.days===null)recency.never++;else if(c.days<=30)recency['0-30']++;else if(c.days<=60)recency['31-60']++;else if(c.days<=90)recency['61-90']++;else recency['90+']++;});
-  const summary={total:crm.length,value,vip:crm.filter(c=>c.seg==='VIP').length,followup:crm.filter(c=>c.days!==null&&c.days>60).length,missing:crm.filter(c=>!c.tel_full).length,never:recency.never,est_base:crm.length};
+  const tiers={Platinum:0,Gold:0,Silver:0,Bronze:0};crm.forEach(c=>tiers[c.seg]++);
+  const summary={total:crm.length,value,vip:tiers.Platinum,followup:crm.filter(c=>c.days!==null&&c.days>60).length,missing:crm.filter(c=>!c.tel_full).length,never:recency.never,est_base:crm.length};
   const top=[...crm].sort((a,b)=>b.pay-a.pay).slice(0,10);
-  return{rows:crm,summary,recency,top,interest:(accObj&&accObj.product_interest||[])};}
+  return{rows:crm,summary,recency,tiers,top,interest:(accObj&&accObj.product_interest||[])};}
 
 function compExpiry(raw,src){const H=H_of(raw),rows=raw.slice(1);const low=H.map(h=>h.toLowerCase());
   // วนตาม "คำค้น" ก่อน (เจาะจงสุดมาก่อน) แล้วค่อยวนคอลัมน์ → กันปัญหา product จับ product_code แทน product_name
@@ -752,7 +782,7 @@ async function loadLive(keepView){if(!keepView)setBadge('load');
   renderDiag();
   try{const raw=await withTimeout(fetchRows(SOURCES.crm),25000,'CRM ');const c=compCRM(raw,accObj);DATA.crm=c;LIVE.crm=true;DIAG.crm={ok:true,rows:c.rows.length};if(!keepView)cPage=1;renderCRM();}catch(e){LIVE.crm=false;DIAG.crm={ok:false,err:String(e&&e.message||e)};console.warn('crm failed',e);}
   renderDiag();
-  try{const raw=await withTimeout(fetchRows(SOURCES.expiry),25000,'MONITOR ');const x=compExpiry(raw,SOURCES.expiry);DATA.expiry=x;LIVE.expiry=true;DIAG.expiry={ok:true,rows:x.rows.length};if(!keepView)ePage=1;renderExpiry();}catch(e){LIVE.expiry=false;DIAG.expiry={ok:false,err:String(e&&e.message||e)};console.warn('expiry failed',e);}
+  try{const raw=await withTimeout(fetchRows(SOURCES.expiry),25000,'MONITOR ');const x=compExpiry(raw,SOURCES.expiry);DATA.expiry=x;LIVE.expiry=true;DIAG.expiry={ok:true,rows:x.rows.length};if(!keepView){ePage=1;egPage=1;}renderExpiry();}catch(e){LIVE.expiry=false;DIAG.expiry={ok:false,err:String(e&&e.message||e)};console.warn('expiry failed',e);}
   renderDiag();
   try{const raw=await withTimeout(fetchRows(SOURCES.sales),25000,'Sales ');const s=compSales(raw);DATA.sales=s;LIVE.sales=true;DIAG.sales={ok:true,rows:s.by_sku.length};renderSales();}catch(e){LIVE.sales=false;DIAG.sales={ok:false,err:String(e&&e.message||e)};console.warn('sales failed',e);}
   renderDiag();

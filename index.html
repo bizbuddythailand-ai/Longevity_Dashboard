@@ -377,7 +377,9 @@ const statusPill=s=>({Ordered:'p-blue',Delay:'p-red',Completed:'p-green',Cancell
 // charts
 function donut(el,segs,opt={}){const tot=segs.reduce((s,x)=>s+x.value,0)||1,r=52,c=64,sw=20,circ=2*Math.PI*r;let off=0,p='';
   segs.forEach(s=>{const len=s.value/tot*circ;p+=`<circle cx="${c}" cy="${c}" r="${r}" fill="none" stroke="${s.color}" stroke-width="${sw}" stroke-dasharray="${len} ${circ-len}" stroke-dashoffset="${-off}" transform="rotate(-90 ${c} ${c})"/>`;off+=len;});
-  el.innerHTML=`<svg viewBox="0 0 128 128" width="${opt.size||138}" height="${opt.size||138}">${p}<text x="64" y="60" text-anchor="middle" class="dn-num">${opt.center??tot}</text><text x="64" y="76" text-anchor="middle" class="dn-lbl">${opt.centerLabel||''}</text></svg>`;}
+  const cnum=String(opt.center??tot);const fs=opt.centerFont||Math.min(21,Math.max(9,Math.round(120/Math.max(1,cnum.length))));
+  const tl=cnum.length>9?' textLength="76" lengthAdjust="spacingAndGlyphs"':'';
+  el.innerHTML=`<svg viewBox="0 0 128 128" width="${opt.size||138}" height="${opt.size||138}">${p}<text x="64" y="60" text-anchor="middle" class="dn-num" font-size="${fs}"${tl}>${cnum}</text><text x="64" y="76" text-anchor="middle" class="dn-lbl">${opt.centerLabel||''}</text></svg>`;}
 function legend(el,segs,fmt){el.innerHTML=segs.map(s=>`<div class="li"><i style="background:${s.color}"></i>${s.label}<b>${fmt?fmt(s.value):s.value}</b></div>`).join('');}
 function hbars(el,items,fmt){const max=Math.max(...items.map(i=>i.value),1);el.innerHTML=items.map(i=>`<div class="hb"><div class="hb-l">${i.label}</div><div class="hb-t"><div class="hb-f" style="width:${Math.max(3,i.value/max*100)}%;background:${i.color||'var(--brand)'}"></div></div><div class="hb-v">${fmt?fmt(i.value):i.value}</div></div>`).join('');}
 function lineChart(el,pts,fmt){const W=660,H=170,pl=30,pr=12,pt=14,pb=24,max=Math.max(...pts.map(p=>p.y),1),iw=W-pl-pr,ih=H-pt-pb;
@@ -459,7 +461,6 @@ function renderAccounting(){const a=DATA.accounting;
   const payColors={kbank:'#90282D',creditcard:'#2563EB',other:'#C2820B'};
   const payseg=Object.entries(ag.pay).map(([k,v])=>({label:k,value:v,color:payColors[k]||'#8A93A2'}));
   donut(document.getElementById('a-paydonut'),payseg.length?payseg:[{label:'—',value:1,color:'#E5E0D5'}],{center:baht(Object.values(ag.pay).reduce((x,y)=>x+y,0)),centerLabel:'รวม',size:140});
-  const dn=document.getElementById('a-paydonut').querySelector('.dn-num');if(dn)dn.setAttribute('font-size','13');
   legend(document.getElementById('a-paylegend'),payseg,baht);
   const chColors={LINE:'#15A24A',Facebook:'#2563EB',Instagram:'#C2410C',Shopify:'#7C3AED',Other:'#8A93A2'};
   hbars(document.getElementById('a-chbars'),Object.entries(ag.ch).map(([k,v])=>({label:k,value:v,color:chColors[k]||'#8A93A2'})).sort((x,y)=>y.value-x.value),baht);

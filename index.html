@@ -426,7 +426,7 @@ function renderStock(){const all=DATA.stock;document.getElementById('k-total').t
   const oset=all.filter(r=>['out','urgent','soon'].includes(r.tier)),wset=all.filter(r=>r.tier==='warn'),sset=all.filter(r=>r.spike);
   document.getElementById('k-order').textContent=oset.length;document.getElementById('k-watch').textContent=wset.length;document.getElementById('k-spike').textContent=sset.length;
   const f=r=>kBrand==='all'||r.brand===kBrand;
-  document.getElementById('k-tbody').innerHTML=all.filter(f).map(r=>`<tr style="--c:${TIER[r.tier].c}" class="spine"><td class="code">${r.code}</td><td class="nm" title="${r.name}">${r.name}</td><td>${brandPill(r.brand)}</td><td class="r"><b class="num">${numf(r.available)}</b></td><td class="r num muted">0</td><td class="r">${dlHTML(r.days_left,r.tier)}</td><td class="r num muted">${r.rop}</td><td class="r">${r.order_qty>0?`<b class="num" style="color:${TIER[r.tier].c}">${r.order_qty}</b>`:'<span class="muted">—</span>'}</td><td class="c">${tierPill(r.tier)}</td></tr>`).join('')||`<tr><td colspan="9" class="empty">ไม่มีข้อมูล</td></tr>`;
+  document.getElementById('k-tbody').innerHTML=all.filter(f).map(r=>`<tr style="--c:${TIER[r.tier].c}" class="spine"><td class="code">${r.code}</td><td class="nm" title="${r.name}">${r.name}</td><td>${brandPill(r.brand)}</td><td class="r"><b class="num">${numf(r.available)}</b></td><td class="r num muted">${numf(r.ordered||0)}</td><td class="r">${dlHTML(r.days_left,r.tier)}</td><td class="r num muted">${r.rop}</td><td class="r">${r.order_qty>0?`<b class="num" style="color:${TIER[r.tier].c}">${r.order_qty}</b>`:'<span class="muted">—</span>'}</td><td class="c">${tierPill(r.tier)}</td></tr>`).join('')||`<tr><td colspan="9" class="empty">ไม่มีข้อมูล</td></tr>`;
   const os=oset.filter(f).sort((a,b)=>(b.order_qty-a.order_qty)||((a.days_left??99)-(b.days_left??99)));
   document.getElementById('k-order-tbody').innerHTML=os.length?os.map(r=>`<tr style="--c:${TIER[r.tier].c}" class="spine"><td class="code">${r.code}</td><td class="nm" title="${r.name}">${r.name}</td><td class="r num">${numf(r.available)}</td><td class="r">${dlHTML(r.days_left,r.tier)}</td><td class="r"><b class="num" style="color:#fb7185">${r.order_qty||'—'}</b></td><td class="c">${tierPill(r.tier)}</td></tr>`).join(''):`<tr><td colspan="6" class="empty" style="color:#7C8696">ไม่มีรายการต้องสั่ง 👍</td></tr>`;
   const ws=wset.filter(f).sort((a,b)=>(a.days_left??99)-(b.days_left??99));
@@ -730,7 +730,11 @@ function compSales(raw){
 
 function compStockLive(raw){
   const H=H_of(raw),rows=raw.slice(1);
-  const iName=colIdx(H,'product name','product','ชื่อสินค้า','สินค้า'),iSku=colIdx(H,'sku','รหัส','code'),iStock=colIdx(H,'stock th','stock','คงเหลือ'),iOrdered=colIdx(H,'ordered','สั่งแล้ว'),iDaily=colIdx(H,'daily sales','ขายวัน'),iAvg=colIdx(H,'avg sales','avg','เฉลี่ย'),iLatest=colIdx(H,'latest sales','ล่าสุด'),iDays=colIdx(H,'days left','days','วันเหลือ'),iLead=colIdx(H,'lead time'),iSafety=colIdx(H,'safety stock','safety'),iRop=colIdx(H,'rop','return order','จุดสั่ง'),iOq=colIdx(H,'order qty','สั่งซื้อ'),iSug=colIdx(H,'suggestion','note','หมาย');
+  // ── FIX: Dashboard_V2 เป็นเทมเพลตคงที่ + gviz(headers=0) มักดรอปหัวคอลัมน์ที่เป็น "ตัวเลขล้วน" (เช่น Stock TH)
+  // ทำให้ colIdx('stock') เผลอไปแมตช์หัว "Days Left (Stock)" → 'คงเหลือ' เลยโชว์ค่าเท่ากับ 'วันเหลือ'
+  // แก้: ล็อกตำแหน่งคอลัมน์ที่รู้แน่ (A=0 … Q=16) เป็น fallback + ใช้ชื่อหัวเฉพาะที่ไม่กำกวมเป็นตัวหลัก
+  const pick=(pos,...kw)=>{const i=colIdx(H,...kw);return i>=0?i:pos;};
+  const iName=pick(0,'product name'),iSku=pick(1,'sku no'),iStock=pick(2,'stock th'),iOrdered=pick(3,'ordered'),iDaily=pick(4,'daily sales'),iAvg=pick(5,'avg sales'),iLatest=pick(6,'latest'),iDays=pick(10,'days left'),iLead=pick(11,'lead time'),iSafety=pick(12,'safety'),iRop=pick(13,'rop'),iOq=pick(15,'order qty'),iSug=pick(16,'suggestion');
   const TIERS={'🔴':'urgent','🟠':'warn','🟡':'soon','🟢':'ok','⚪':'nodata','❌':'out'};
   const tierOf=(sug,dl,stock)=>{if(stock<=0)return'out';for(const[e,t]of Object.entries(TIERS))if((sug||'').includes(e))return t;if(dl===null)return'nodata';if(dl<=7)return'urgent';if(dl<=14)return'warn';if(dl<=21)return'soon';return'ok';};
   const skipWords=['ชื่อสินค้า','product name','product','sku no'];
@@ -738,7 +742,7 @@ function compStockLive(raw){
     if(skipWords.some(w=>name.toLowerCase()===w||sku.toLowerCase()===w))return;
     const avail=Math.round(numv(r[iStock])),avg=numv(r[iAvg]),latest=numv(r[iLatest]),dlRaw=(r[iDays]||'').trim(),dl=dlRaw===''||isNaN(numv(dlRaw))?null:Math.round(numv(dlRaw)*10)/10,rop=Math.round(numv(r[iRop])),oq=Math.round(numv(r[iOq])),sug=(r[iSug]||'').trim();
     const cat=name.toLowerCase();const brand=cat.includes('band')||cat.includes('knit')||cat.includes('flex')||cat.includes('leather')||cat.includes('strap')?'WHOOP Band':cat.includes('whoop')||cat.includes('peak')||cat.includes('mg life')?'WHOOP Device':cat.includes('blueprint')||cat.includes('olive oil')?'Blueprint':cat.includes('pulsetto')?'Pulsetto':cat.includes('remy')?'Remy':'Supplement';
-    stock.push({code:sku||name,name,brand,available:avail,avg7:avg,today:latest,days_left:dl,rop,order_qty:oq,spike:avg>0&&latest>avg*1.5,tier:tierOf(sug,dl,avail)});});
+    stock.push({code:sku||name,name,brand,available:avail,ordered:Math.round(numv(r[iOrdered])),avg7:avg,today:latest,days_left:dl,rop,order_qty:oq,spike:avg>0&&latest>avg*1.5,tier:tierOf(sug,dl,avail)});});
   return stock;}
 
 function compOrdersLive(raw){

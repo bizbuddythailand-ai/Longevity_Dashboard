@@ -747,14 +747,17 @@ function compStockLive(raw){
 
 function compOrdersLive(raw){
   const H=H_of(raw),rows=raw.slice(1);
-  const iOrder=colIdx(H,'order no','order number','เลขออเดอร์'),iSup=colIdx(H,'supplier','ผู้จำหน่าย'),iProd=colIdx(H,'product','สินค้า'),iSku=colIdx(H,'sku'),iQty=colIdx(H,'qty','จำนวน'),iRecv=colIdx(H,'เข้าจริง','received'),iOdate=colIdx(H,'order date','วันสั่ง'),iEta=colIdx(H,'eta','กำหนดถึง'),iStatus=colIdx(H,'status','สถานะ'),iTotalTHB=colIdx(H,'total','total (thb)','รวม');
+  // FIX: Orders_All มีแถว title/summary ปนด้านบน + gviz อาจดรอปหัวคอลัมน์ → ล็อกตำแหน่ง A=0..V=21 เป็น fallback
+  const pick=(pos,...kw)=>{const i=colIdx(H,...kw);return i>=0?i:pos;};
+  const iOrder=pick(0,'order number','order no'),iSup=pick(1,'supplier'),iProd=pick(2,'product'),iSku=pick(3,'sku'),iQty=pick(4,'qty'),iRecv=pick(5,'เข้าจริง','received'),iOdate=pick(6,'order date'),iEta=pick(7,'eta'),iStatus=pick(10,'status'),iTotalTHB=pick(16,'total (thb)');
   const parseD=s=>{s=String(s||'').trim();if(!s)return '';
     if(/^Date\(/.test(s)){const p=s.match(/Date\((\d+),(\d+),(\d+)\)/);if(p){const d=new Date(+p[1],+p[2],+p[3]);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}}
     let m=s.match(/(\d{4})[-\/.](\d{1,2})[-\/.](\d{1,2})/);if(m)return `${m[1]}-${String(m[2]).padStart(2,'0')}-${String(m[3]).padStart(2,'0')}`;
     m=s.match(/(\d{1,2})[-\/.](\d{1,2})[-\/.](\d{2,4})/);if(m){let y=+m[3];if(y<100)y+=2000;return `${y}-${String(m[2]).padStart(2,'0')}-${String(m[1]).padStart(2,'0')}`;}return '';};
   const summary={Ordered:0,Delay:0,Completed:0,Cancelled:0,outstanding_thb:0};
   const incoming=[],byProd={};
-  rows.forEach(r=>{const order=(r[iOrder]||'').trim();if(!order)return;const status=(r[iStatus]||'').trim();const qty=Math.round(numv(r[iQty]));const recv=Math.round(numv(r[iRecv]));const prod=(r[iProd]||'').trim();const sku=(r[iSku]||'').trim();const sup=(r[iSup]||'').trim();const eta=parseD(r[iEta]);const thb=numv(r[iTotalTHB]);
+  const OKST=new Set(['ordered','delay','completed','cancelled','arrived usa','arrived th','not arrived']);
+  rows.forEach(r=>{const status=(r[iStatus]||'').trim();const qty=Math.round(numv(r[iQty]));const prod=(r[iProd]||'').trim();if(!(OKST.has(status.toLowerCase())||(qty>0&&prod)))return;const order=(r[iOrder]||'').trim();const recv=Math.round(numv(r[iRecv]));const sku=(r[iSku]||'').trim();const sup=(r[iSup]||'').trim();const eta=parseD(r[iEta]);const thb=numv(r[iTotalTHB]);
     if(status==='Ordered'){summary.Ordered+=qty;summary.outstanding_thb+=thb;}
     else if(status==='Delay'){summary.Delay+=qty;summary.outstanding_thb+=thb;}
     else if(status==='Completed')summary.Completed+=qty;
